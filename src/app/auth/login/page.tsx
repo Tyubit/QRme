@@ -1,44 +1,42 @@
 'use client';
 
 import ReactDOM from 'react-dom';
-import { Formik, Field, Form } from 'formik';
+import { Formik, useFormik, Field, Form } from 'formik';
+import { validateEmail, validateRequired } from '@/utils/validations';
+import { Error } from '@/components/Error';
+import { SimpleButton } from '@/components/Buttons';
+import Link from 'next/link';
+
+const initialValues = {
+    email: '',
+            password: ''
+}
+
+const onSubmit = values => {
+    console.log(values)
+}
 
 export default function Login (){
-    
 return (
-    <div className=''>
+    <div className='flex flex-col justify-center items-center'>
         <h1>Log in</h1>
-        <Formik
-            initialValues={{ email: '', password: '' }}
-            onSubmit={async (values) => {
-                await new Promise((r) => setTimeout(r, 500));
-                alert(JSON.stringify(values, null, 2));
-            }}
-        >
-            {({ isSubmitting }) => (
-            <Form className='flex flex-col px-10'>
-            <label htmlFor="email">Email</label>
-            <Field name="email" placeholder="jane@acme.com" type="email" className="p-2"/>
-            <label htmlFor="email">Password</label>
-            <Field name="password" placeholder="password" type="password" />
-            <button type="submit" disabled={isSubmitting} className='p-3'>
-                Submit
-            </button>
-            </Form>
+        <Formik initialValues={initialValues} onSubmit={onSubmit}>
+            {({ errors, touched, isValidating }) => (
+                <Form>
+                    <Field name='email' validate={validateEmail} className='w-full rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800'/>
+                    {errors.email && touched.email && <Error>{errors.email}</Error>}
+                    <Field name='password' validate={validateRequired} className='w-full rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800'/>
+                    {errors.password && touched.password && <Error>{errors.password}</Error>}
+                    <p >
+                        <a href=''>Forgot Password?</a>
+                    </p>
+                    <SimpleButton type='submit'>Log In</SimpleButton>
+                </Form>
             )}
         </Formik>
+        <p className="">
+            Don't have an account?<Link href='/auth/signup'>Sign up</Link>
+        </p>
     </div>
 )
 }
-
-
-function validateEmail(value: string) {
-    let error;
-    if (!value) {
-        error = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)) {
-        error = 'Invalid email address';
-    }
-    return error;
-  }
-  
