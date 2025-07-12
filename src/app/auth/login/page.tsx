@@ -9,7 +9,7 @@ import Link from 'next/link';
 
 const initialValues = {
     email: '',
-            password: ''
+    password: ''
 }
 
 const onSubmit = values => {
@@ -18,14 +18,14 @@ const onSubmit = values => {
 
 export default function Login (){
 return (
-    <div className='flex flex-col justify-center items-center'>
+    <div className=''>
         <h1>Log in</h1>
         <Formik initialValues={initialValues} onSubmit={onSubmit}>
             {({ errors, touched, isValidating }) => (
                 <Form>
-                    <Field name='email' validate={validateEmail} className='w-full rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800'/>
+                    <Field name='email' placeholder='Email' validate={validateEmail} className='w-full rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800'/>
                     {errors.email && touched.email && <Error>{errors.email}</Error>}
-                    <Field name='password' validate={validateRequired} className='w-full rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800'/>
+                    <Field name='password' placeholder='Password' validate={validateRequired} className='w-full rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800'/>
                     {errors.password && touched.password && <Error>{errors.password}</Error>}
                     <p >
                         <a href=''>Forgot Password?</a>
@@ -35,7 +35,7 @@ return (
             )}
         </Formik>
         <p className="">
-            Don't have an account?<Link href='/auth/signup'>Sign up</Link>
+            Don't have an account?<Link href='/auth/signup' className='font-bold'>Sign up</Link>
         </p>
     </div>
 )
