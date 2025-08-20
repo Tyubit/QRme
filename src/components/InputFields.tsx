@@ -1,19 +1,21 @@
 import React from 'react'
-import { Formik ,Field } from 'formik'
-import { Error } from './Error'
+import { useField,FormikProps, FieldHookConfig} from 'formik'
 
-type InputFieldProps = {
-    name?: string;
-    placeholder?: string;
-    errorMsg?: string;
+type InputFieldProps = FieldHookConfig<string> & {
+    label?: string;
+    className?: string
 };
 
-const InputFields: React.FC<InputFieldProps> = ({name, placeholder}) => {
-return (
-    <div>
-        <Field name='' validate={validate} placeholder = ''/>
-    </div>
-)
-}
+const InputField: React.FC<InputFieldProps> = ({ label,validate, ...props }) => {
+    const [field, meta] = useField(props);
+    return (
+        <div className='mt-2.5'>
+            <label className='px-4' htmlFor={props.name}>{ label }</label>
+            <input {...field} {...props} id={props.name} className={props.className} />
+            {meta.touched && typeof meta.error === "string" && (<p className="text-[#DA2C43] text-sm">{meta.error}</p>
+)}
+        </div>
+    )
+};
 
-export default InputFields
+export default InputField

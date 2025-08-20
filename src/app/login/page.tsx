@@ -2,7 +2,7 @@
 
 import ReactDOM from 'react-dom';
 import { Formik, useFormik, Field, Form } from 'formik';
-import { validateEmail, validateRequired } from '@/utils/validations';
+import { validateEmail, validateRequired } from '../../utils/validations';
 import { Error } from '@/components/Error';
 import { SimpleButton } from '@/components/Buttons';
 import Link from 'next/link';
@@ -35,7 +35,7 @@ return (
             )}
         </Formik>
         <p className="">
-            Don't have an account?<Link href='/auth/signup' className='font-bold'>Sign up</Link>
+            Don't have an account?<Link href='/signup' className='font-bold'>Sign up</Link>
         </p>
     </div>
 )

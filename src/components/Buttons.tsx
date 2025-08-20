@@ -1,10 +1,20 @@
-import React from 'react'
-type ErrorProps = {
-    type?: 'button' | 'submit' | 'reset';
-    children?: React.ReactNode;
+import { useState } from "react"
+
+type ButtonProps = {
+  type?: 'button' | 'submit' | 'reset';
+  className?: string;
+  onClick ?: () => void
+  children?: React.ReactNode;
 };
-export const SimpleButton: React.FC<ErrorProps> = ({ type = 'button', children }) => {
+export const SimpleButton: React.FC<ButtonProps> = ({ type = 'button', className, onClick, children }) => {
+  const [active, setActive] = useState(false)
+
+  const handleClick = () => {
+    setActive(!active)
+    if (onClick) onClick();
+  }
+
   return (
-      <button type={type} className='block w-56 rounded-md py-1.5 px-2 ring-1 ring-inset ring-gray-400 focus:text-gray-800'>{children}</button>
+    <button type={type} onClick={handleClick} className={`w-full py-3 rounded-full active:bg-white active:text-[#3D74B6] active:border active:border-[#3D74B6] transition-colors duration-200 ease-in-out bg-[#3D74B6] text-white ${className}`}>{children}</button>
   )
 }
