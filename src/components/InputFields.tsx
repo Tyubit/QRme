@@ -48,3 +48,12 @@ export const ConfirmPasswordField: React.FC<InputFieldProps> = ({ className}) =>
     />
     )
 };
+
+export const ReadOnlyField: React.FC<InputFieldProps> = ({ label, ...props }) => {
+    return (
+        <div className='mt-2.5'>
+            <label className='px-4' htmlFor={props.name}>{ label }</label>
+            <input {...props} id={props.name} className={props.className}/>
+        </div>
+    )
+};

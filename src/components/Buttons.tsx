@@ -1,16 +1,14 @@
-import { useState } from "react"
-
+"use client";
 type ButtonProps = {
   type?: 'button' | 'submit' | 'reset';
   className?: string;
   onClick ?: () => void
   children?: React.ReactNode;
 };
+
 export const SimpleButton: React.FC<ButtonProps> = ({ type = 'button', className, onClick, children }) => {
-  const [active, setActive] = useState(false)
 
   const handleClick = () => {
-    setActive(!active)
     if (onClick) onClick();
   }
 
@@ -18,12 +16,19 @@ export const SimpleButton: React.FC<ButtonProps> = ({ type = 'button', className
     <button type={type} onClick={handleClick} className={`${className}`}>{children}</button>
   )
 }
-
-export const BlueButton: React.FC<ButtonProps> = ({ type = 'button', className, onClick, children }) => {
-  const [active, setActive] = useState(false)
+export const IconButton: React.FC<ButtonProps> = ({ type = 'button', className, onClick, children }) => {
 
   const handleClick = () => {
-    setActive(!active)
+    if (onClick) onClick();
+  }
+
+  return (
+    <button type={type} onClick={handleClick} className={`active:bg-[#D6E0ED] p-1 rounded-full w-fit${className}`}>{children}</button>
+  )
+}
+
+export const BlueButton: React.FC<ButtonProps> = ({ type = 'button', className, onClick, children }) => {
+  const handleClick = () => {
     if (onClick) onClick();
   }
 
