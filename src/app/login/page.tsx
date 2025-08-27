@@ -8,15 +8,27 @@ import {BlueButton,IconButton } from '@/components/Buttons';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import Link from 'next/link';
+import { login } from './action';
 
 const initialValues = {
     email: '',
     password: ''
 }
 
-const onSubmit = values => {
-    console.log(values)
-}
+    const onSubmit = async (values: typeof initialValues) => {
+
+        const fd = new FormData()
+        fd.append("email", values.email)
+        fd.append("password", values.password)
+
+        const result = await login(fd);
+
+        if (result.status === "success") {
+            console.log(result.user)
+        } else {
+            console.log(result.status)
+        }
+    }
 
 export default function Login (){
 return (

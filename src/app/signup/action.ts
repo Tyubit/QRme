@@ -22,7 +22,6 @@ export async function signup(formData: FormData) {
         }
     });
 
-        console.log(data?.user)
     if (error) {
         return {
             status: error?.message,
@@ -33,5 +32,10 @@ export async function signup(formData: FormData) {
             status: "User already exist, please log in",
             user: null
         }
+    }
+
+    return {
+            status: "success",
+            user: data.user
     }
 }
