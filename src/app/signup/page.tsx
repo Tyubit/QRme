@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Formik, Form } from 'formik';
 
-import { validateEmail, validateRequired, validatePassword} from '@/utils/validations';
+import { validateEmail, validateRequired, validatePassword} from '../../../utils/validations';
 import { ConfirmPasswordField, InputField, PasswordField } from '@/components/InputFields';
 import Stepper from '@/components/Stepper';
 import {BlueButton, IconButton } from '@/components/Buttons';
@@ -10,6 +10,7 @@ import {BlueButton, IconButton } from '@/components/Buttons';
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import Link from 'next/link';
+import { signup } from './action';
 
 const initialValues = {
     email: '',
@@ -32,8 +33,21 @@ export default function Signup() {
         }
     };
 
-    const onSubmit = values => {
-        handleNext();
+    const onSubmit = async (values: typeof initialValues) => {
+
+        const fd = new FormData()
+        fd.append("email", values.email)
+        fd.append("password", values.password)
+        fd.append("name", values.name)
+
+        const result = await signup(fd);
+
+        if (result.status === "success") {
+            console.log(result.user)
+            handleNext();
+        } else {
+            console.log(result.status)
+        }
     }
 return (
     <div className='bg-[#3D74B6] w-full h-svh flex justify-center-safe items-center'>
