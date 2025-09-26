@@ -15,10 +15,26 @@ export async function login(formData: FormData) {
     password: formData.get('password') as string,
     }
 
-    const { error } = await supabase.auth.signInWithPassword(data)
+    const {data:signInData, error } = await supabase.auth.signInWithPassword(data)
+    
+    const userId = signInData.user?.id
+    console.log('Supabase Auth user id:', userId)
 
-    if (error) {
-    redirect('/error')
+    
+    const { data: userRow, error: userError } = await supabase
+    .from('users')
+    .select('public_id')
+    .eq('id', userId) // link to Supabase Auth UUID
+    .single()
+
+    console.log('user:', userRow)
+    if (userError || !userRow) {
+        console.error('Error fetching public_id:', userError)
+        // redirect('/error')
     }
-    redirect('/')
+
+    // ✅ Redirect using `public_id` instead of `user.id`
+    if(userError || !userRow)
+        redirect(`/login/`)
+    redirect(`/profile/${userId}`)
 }

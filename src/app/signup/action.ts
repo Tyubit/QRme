@@ -15,11 +15,11 @@ export async function signup(formData: FormData) {
     const { error, data } = await supabase.auth.signUp({
         email: credentials.email,
         password: credentials.password,
-        options: {
-            data: {
-                name: credentials.name
-            }
-        }
+        // options: {
+        //     data: {
+        //         name: credentials.name
+        //     }
+        // }
     });
 
     if (error) {
