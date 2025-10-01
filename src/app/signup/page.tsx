@@ -32,7 +32,11 @@ export default function Signup() {
         { id: 2, title: 'Profile info' },
     ];
 
-    const handleNext = async (validateForm: () => Promise<FormikErrors<typeof initialValues>>, setTouched: any) => {
+    const handleNext = async (e: React.MouseEvent<HTMLButtonElement>, validateForm: () => Promise<FormikErrors<typeof initialValues>>, setTouched: any) => {
+
+        e.preventDefault();
+        e.stopPropagation();
+
         setTouched(
             Object.keys(initialValues).reduce((acc, key) => {
             acc[key] = true;
@@ -54,19 +58,31 @@ export default function Signup() {
         }
     };
 
-    const onSubmit = async (values: typeof initialValues) => {
+    const onSubmit = async (values: FormValues) => {
 
-        const fd = new FormData()
-        fd.append("email", values.email)
-        fd.append("password", values.password)
-        fd.append("name", values.name)
-        fd.append("company_name", values.company_name)
-        fd.append("phone_num", values.phone_num)
-        fd.append("contact_email", values.contact_email)
-        fd.append("website", values.website)
+        // const fd = new FormData()
+        // fd.append("email", values.email)
+        // fd.append("password", values.password)
+        // fd.append("name", values.name)
+        // fd.append("company_name", values.company_name)
+        // fd.append("phone_num", values.phone_num)
+        // fd.append("contact_email", values.contact_email)
+        // fd.append("website", values.website)
 
-        const result = await signup(fd);
-        console.log(result)
+        const payload = {
+            email: values.email.replace(/^["']|["']$/g, '').trim(),
+            password: values.password,
+            name: values.name,
+            company_name: values.company_name,
+            phone_num: values.phone_num,
+            contact_email: values.contact_email,
+            website: values.website,
+        };
+        
+        console.log('Payload:', payload);
+        
+        const result = await signup(payload);
+        console.log("Server response:", result)
 
         if (result.status === "success") {
             console.log(result.user)
@@ -92,7 +108,8 @@ return (
                 initialValues={initialValues} 
                 onSubmit={onSubmit}
                 validateOnChange={true}
-                validateOnBlur={true}>
+                validateOnBlur={true}
+                enableReinitialize={false}>
                 {({ errors, touched, isValidating, validateForm, setTouched  }) => (
                     <Form className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                         {currentStep === 1 ? (
@@ -135,7 +152,6 @@ return (
                                 label="Contact Email"
                                 name="contact_email"
                                 placeholder="contact@email.com"
-                                validate={validateEmail}
                                 className="w-full rounded-full py-2 px-3.5 ring-1 ring-inset ring-gray-400 focus:text-gray-800 font-light"
                             />
                             <InputField
@@ -146,20 +162,20 @@ return (
                             />
                             </>
                         )}
-                        {currentStep === 2 ? (
+                        {currentStep === 1 ? (
+                            <BlueButton
+                                type="button"
+                                onClick={(e) => handleNext(e, validateForm, setTouched)}
+                                className="mt-11 md:w-80 col-span-1 md:col-span-2 justify-self-center"
+                            >
+                                Next
+                            </BlueButton>
+                            ) : (
                             <BlueButton
                                 type="submit"
                                 className="mt-11 md:w-80 col-span-1 md:col-span-2 justify-self-center"
                             >
                                 Sign Up
-                            </BlueButton>
-                            ) : (
-                            <BlueButton
-                                type="button"
-                                onClick={() => handleNext(validateForm, setTouched)}
-                                className="mt-11 md:w-80 col-span-1 md:col-span-2 justify-self-center"
-                            >
-                                Next
                             </BlueButton>
                         )}
                     </Form>

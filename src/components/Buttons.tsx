@@ -2,14 +2,14 @@
 type ButtonProps = {
   type?: 'button' | 'submit' | 'reset';
   className?: string;
-  onClick ?: () => void
+  onClick ?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children?: React.ReactNode;
 };
 
 export const SimpleButton: React.FC<ButtonProps> = ({ type = 'button', className, onClick, children }) => {
 
-  const handleClick = () => {
-    if (onClick) onClick();
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) onClick(e);
   }
 
   return (
@@ -18,8 +18,8 @@ export const SimpleButton: React.FC<ButtonProps> = ({ type = 'button', className
 }
 export const IconButton: React.FC<ButtonProps> = ({ type = 'button', className, onClick, children }) => {
 
-  const handleClick = () => {
-    if (onClick) onClick();
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) onClick(e);
   }
 
   return (
@@ -28,8 +28,8 @@ export const IconButton: React.FC<ButtonProps> = ({ type = 'button', className, 
 }
 
 export const BlueButton: React.FC<ButtonProps> = ({ type = 'button', className, onClick, children }) => {
-  const handleClick = () => {
-    if (onClick) onClick();
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (onClick) onClick(e);
   }
 
   return (

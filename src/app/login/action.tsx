@@ -22,6 +22,7 @@ export async function login(formData: FormData) {
 
     
     const { data: userRow, error: userError } = await supabase
+    .schema('public')
     .from('users')
     .select('public_id')
     .eq('id', userId) // link to Supabase Auth UUID
