@@ -33,22 +33,29 @@ export async function updateSession(request: NextRequest) {
 
   // IMPORTANT: DO NOT REMOVE auth.getUser()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  const {data: { user }} = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth') &&
-    !request.nextUrl.pathname.startsWith('/error')
-  ) {
+  if (!user && request.nextUrl.pathname.startsWith('/user')) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 
+  if (user && request.nextUrl.pathname === '/user') {
+    // Fetch public_id
+    const { data: userRow,error } = await supabase
+      .from('users')
+      .select('public_id')
+      .eq('id', user.id)
+      .single()
+
+    if (!error && userRow?.public_id) {
+      return NextResponse.redirect(new URL(`/user/${userRow.public_id}`, request.url))
+    }
+  }
+
+  console.log(user)
   // IMPORTANT: You *must* return the supabaseResponse object as it is.
   // If you're creating a new response object with NextResponse.next() make sure to:
   // 1. Pass the request in it, like so:
@@ -64,3 +71,4 @@ export async function updateSession(request: NextRequest) {
 
   return supabaseResponse
 }
+

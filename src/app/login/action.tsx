@@ -4,38 +4,38 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
 import { createClient } from '../../../utils/supabase/server'
+import { error } from 'console';
 
-export async function login(formData: FormData) {
+export async function login(payload: {
+    email: string;
+    password: string;
+    }) {
     const supabase = await createClient()
 
-    // type-casting here for convenience
-    // in practice, you should validate your inputs
     const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    email: payload.email,
+    password: payload.password,
     }
 
-    const {data:signInData, error } = await supabase.auth.signInWithPassword(data)
+    const {data:signInData, error: signInError} = await supabase.auth.signInWithPassword(data)
+    
+    if (signInError || !signInData.user) {
+        return;
+    }
     
     const userId = signInData.user?.id
-    console.log('Supabase Auth user id:', userId)
 
-    
     const { data: userRow, error: userError } = await supabase
     .schema('public')
     .from('users')
     .select('public_id')
-    .eq('id', userId) // link to Supabase Auth UUID
+    .eq('id', userId)
     .single()
 
     console.log('user:', userRow)
     if (userError || !userRow) {
-        console.error('Error fetching public_id:', userError)
-        // redirect('/error')
+        return error;
     }
 
-    // ✅ Redirect using `public_id` instead of `user.id`
-    if(userError || !userRow)
-        redirect(`/login/`)
-    redirect(`/user/${userId}`)
+    redirect(`/user/${userRow.public_id}`)
 }

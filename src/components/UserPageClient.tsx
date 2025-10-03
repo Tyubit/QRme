@@ -14,14 +14,15 @@ interface Props {
 
 export default function UserPageClient({ user, canEdit }: Props) {
     
+    
     return (
         <div className='bg-[#3D74B6] w-full h-screen flex justify-center-safe items-center'>
             <div className='px-2.5 w-full h-full bg-white md:w-fit md:h-fit  md:px-5 md:py-10 md:rounded-[48px] md:shadow-2xl' >
                 <div>
                 </div>
                 <div className='w-full flex-col flex items-center'>
-                    <h3>Company name</h3>
-                    <h1 className='text-3xl'>Person name</h1>
+                    <h3>{ user.company_name}</h3>
+                    <h1 className='text-3xl'>{user.name}</h1>
                     <p className='font-light'>Subtitles</p>
                 </div>
                 <div className='w-full flex justify-center gap-2.5'>

@@ -15,22 +15,24 @@ const initialValues = {
     password: ''
 }
 
+export default function Login() {
     const onSubmit = async (values: typeof initialValues) => {
 
-        const fd = new FormData()
-        fd.append("email", values.email)
-        fd.append("password", values.password)
-
-        const result = await login(fd);
-
-        if (result.status === "success") {
-            console.log(result.user)
-        } else {
-            console.log(result.status)
+        const payload = {
+            email: values.email,
+            password: values.password
         }
+
+        const result = await login(payload);
+        console.log("Server response:", result)
+
+        // if (result === "success") {
+        //     console.log(result)
+        // } else {
+        //     console.log(result)
+        // }
     }
 
-export default function Login (){
 return (
     <div className='bg-[#3D74B6] w-full h-svh flex justify-center-safe items-center'>
         <div className='px-2.5 w-full h-full bg-white md:w-2/3 md:h-fit  md:px-5 md:py-10 md:rounded-[48px]' >
