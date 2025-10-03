@@ -1,11 +1,19 @@
-import {SimpleButton, IconButton, BlueButton } from '@/components/Buttons';
 
-import { FaTwitch, FaAirbnb, FaSnapchatGhost } from "react-icons/fa"
+'use client'
+
+import { useState } from 'react'
+
+import { SimpleButton, IconButton, BlueButton } from '@/components/Buttons';
 import { InputField } from '@/components/InputFields';
 import Favicon from '@/components/getFavicon';
 
+interface Props {
+    user: any
+    canEdit: boolean
+}
 
-export default async function ProfilePage({ params }: { params: { id: string } }) {
+export default function UserPageClient({ user, canEdit }: Props) {
+    
     return (
         <div className='bg-[#3D74B6] w-full h-screen flex justify-center-safe items-center'>
             <div className='px-2.5 w-full h-full bg-white md:w-fit md:h-fit  md:px-5 md:py-10 md:rounded-[48px] md:shadow-2xl' >

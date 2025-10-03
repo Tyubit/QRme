@@ -33,3 +33,18 @@ export const createClient = async () => {
     },
   );
 };
+
+export const getCurrentUser = async () => {
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.getUser()
+
+  if (error) {
+    // Only log if it's not just a missing session
+    if (error.message !== 'Auth session missing!') {
+      console.error('Error fetching user:', error.message)
+    }
+    return null
+  }
+
+  return data.user
+}

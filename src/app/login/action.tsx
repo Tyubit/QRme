@@ -37,5 +37,5 @@ export async function login(formData: FormData) {
     // ✅ Redirect using `public_id` instead of `user.id`
     if(userError || !userRow)
         redirect(`/login/`)
-    redirect(`/profile/${userId}`)
+    redirect(`/user/${userId}`)
 }

@@ -26,6 +26,7 @@ type FormValues = typeof initialValues;
 
 export default function Signup() {
     const [currentStep, setCurrentStep] = useState(1);
+    const [mounted, setMounted] = useState(false);
     
     const steps = [
         { id: 1, title: 'Set up your Account' },
@@ -60,15 +61,6 @@ export default function Signup() {
 
     const onSubmit = async (values: FormValues) => {
 
-        // const fd = new FormData()
-        // fd.append("email", values.email)
-        // fd.append("password", values.password)
-        // fd.append("name", values.name)
-        // fd.append("company_name", values.company_name)
-        // fd.append("phone_num", values.phone_num)
-        // fd.append("contact_email", values.contact_email)
-        // fd.append("website", values.website)
-
         const payload = {
             email: values.email.replace(/^["']|["']$/g, '').trim(),
             password: values.password,
@@ -90,6 +82,7 @@ export default function Signup() {
             console.log(result.status)
         }
     }
+
 return (
     <div className='bg-[#3D74B6] w-full h-svh flex justify-center-safe items-center'>
         <div className='px-2.5 w-full h-full bg-white md:w-2/3 md:h-fit  md:px-5 md:py-10 md:rounded-[48px] md:shadow-2xl' >

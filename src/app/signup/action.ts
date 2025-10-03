@@ -12,13 +12,6 @@ export async function signup(payload: {
     website: string;
     }) {
     const supabase = await createClient()
-//   // type-casting here for convenience
-//     // in practice, you should validate your inputs
-    // const credentials = {
-    // email: formData.get('email') as string,
-    // password: formData.get('password') as string,
-    // name: formData.get('name') as string,
-    // }
 
     const { error, data } = await supabase.auth.signUp({
         email: payload.email,
@@ -45,6 +38,8 @@ export async function signup(payload: {
             user: null
         }
     }
+
+    redirect('/login');
 
     return {
             status: "success",
