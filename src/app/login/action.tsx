@@ -3,7 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-import { createClient } from '../../../utils/supabase/server'
+import { createClient } from '@/utils/supabase/server'
 import { error } from 'console';
 
 export async function login(payload: {

@@ -1,7 +1,7 @@
 'use server'
-import UserPageClient from '@/components/UserPageClient'
+import UserPageClient from '@/components/Profile/UserPageClient'
 
-import { createClient, getCurrentUser } from '../../../../utils/supabase/server'
+import { createClient, getCurrentUser } from '../../../utils/supabase/server'
 
 interface Props {
     params: Promise<{ id: string }>
@@ -14,7 +14,7 @@ export default async function UserPage({ params }: Props) {
     const { id } = await params 
 
     const { data, error } = await supabase
-        .from('users_view')
+        .from('users')
         .select('*')
         .eq('public_id', id)
         .single()

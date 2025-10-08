@@ -1,6 +1,6 @@
 'use client';
 import { Formik, Form } from 'formik';
-import { validateEmail, validateRequired } from '../../../utils/validations';
+import { validateEmail, validateRequired } from '@/utils/validations';
 import {InputField} from '@/components/InputFields';
 import { Error } from '@/components/Error';
 import {BlueButton,IconButton } from '@/components/Buttons';
@@ -72,5 +72,4 @@ return (
             </p>
         </div>
     </div>
-)
-}
+)}

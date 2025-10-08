@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Formik, Form, FormikErrors } from 'formik';
 
-import { validateEmail, validateRequired, validatePassword} from '../../../utils/validations';
+import { validateEmail, validateRequired, validatePassword} from '../../utils/validations';
 import { ConfirmPasswordField, InputField, PasswordField } from '@/components/InputFields';
 import Stepper from '@/components/Stepper';
 import {BlueButton, IconButton } from '@/components/Buttons';

@@ -1,7 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation'
-import { createClient } from '../../../utils/supabase/server'
+import { createClient } from '@/utils/supabase/server'
 
 export default async function UserRootPage() {
     const supabase = await createClient()
