@@ -14,7 +14,7 @@ interface Profile {
     name: string;
     company_name: string;
     phone_num: string;
-    contact_email: string;
+    cont_email: string;
     socials: string[];
     address: string;
     website: string;
@@ -23,42 +23,30 @@ interface Profile {
 interface ProfileEditProps {
     user: any;
     onCancel: () => void;  // Add this prop
+    onSave: (updatedProfile: Profile) => void;
 }
 
-export const ProfileEdit = ({ user, onCancel }: ProfileEditProps) => {
-    const [profile, setProfile] = useState<Profile>({
-        name: user.name || '',
-        company_name: user.company_name || '',
-        phone_num: user.phone_num || '',
-        contact_email: user.contact_email || '',
-        socials: user.socials || [],
-        address: user.address || '',
-        website: user.website || ''
-    });
+export const ProfileEdit = ({ user, onCancel, onSave }: ProfileEditProps) => {
 
     const onSubmit = async (values: Profile) => {
-    
-        const payload = {
-                user_id: user.id,
-                name: values.name,
-                company_name: values.company_name,
-                phone_num: values.phone_num,
-                contact_email: values.contact_email,
-                website: values.website,
-                socials: values.socials
-            };
-            console.log('profile:', profile);
-            console.log('Payload:', payload);
-            
-            const result = await updateInfo(payload);
-            console.log("Server response:", result)
-    
-            if (result.status === "success") {
-                onCancel();
-            } else {
-                console.log(result.status)
-            }
+
+    const payload = {
+            user_id: user.id,
+            name: values.name,
+            company_name: values.company_name,
+            phone_num: values.phone_num,
+            cont_email: values.cont_email,
+            website: values.website,
+            socials: values.socials
+        };
+        const result = await updateInfo(payload);
+    if (result.status === "success") {
+            onSave(values); 
+            onCancel();
+        } else {
+            console.log(result.status)
         }
+    }
 
     return (
         <div className="bg-[#3D74B6] w-full min-h-screen flex flex-col items-center overflow-y-auto py-10">
@@ -68,7 +56,7 @@ export const ProfileEdit = ({ user, onCancel }: ProfileEditProps) => {
                 <p className="text-gray-600">Update your business information</p>
             </div>
             <Formik
-                initialValues={profile} 
+                initialValues={user} 
                 onSubmit={onSubmit}
                 validateOnChange={true}
                 enableReinitialize={true}
@@ -95,7 +83,7 @@ export const ProfileEdit = ({ user, onCancel }: ProfileEditProps) => {
                         />
                         <InputField
                             label="Contact Email"
-                            name="contact_email"
+                            name="cont_email"
                             placeholder="contact@email.com"
                             className="w-full rounded-full py-2 px-3.5 ring-1 ring-inset ring-gray-400 focus:text-gray-800 font-light"
                         />
@@ -114,40 +102,39 @@ export const ProfileEdit = ({ user, onCancel }: ProfileEditProps) => {
 
                             <FieldArray name="socials">
                                 {({ push, remove }) => (
-                                    <div className="">
-                                        {values.socials.map((social, index) => (
-                                            <div key={index} className="flex rounded-lg">
-                                                <InputField
-                                                    name={`socials.${index}`}
-                                                    placeholder="URL"
-                                                    className="w-full rounded-full py-2 px-3.5 ring-1 ring-inset ring-gray-400 focus:text-gray-800 font-light"
-                                                />
-                                                <SimpleButton
-                                                    type="button"
-                                                    className="rounded-full p-2 text-red-500 hover:bg-red-100 transition mt-1"
-                                                    onClick={() => remove(index)}>
-                                                    <span className='w-2.5 bg-amber-950'/>
-                                                </SimpleButton>
-                                                {/* <button
-                                                    type="button"
-                                                    onClick={() => remove(index)}
-                                                    className="p-2 text-red-500 hover:bg-red-100 rounded-lg transition mt-1"
-                                                >
-                                                <IoIosRemoveCircle />
-                                                </button> */}
-                                            </div>
-                                        ))}
-
-                                        <button
+                                    <div>
+                                    {values.socials.map((social, index) => (
+                                        <div key={index} className="flex rounded-lg items-center gap-2">
+                                        <InputField
+                                            name={`socials.${index}`}
+                                            placeholder="URL"
+                                            className="w-full rounded-full py-2 px-3.5 ring-1 ring-inset ring-gray-400 focus:text-gray-800 font-light"
+                                        />
+                                        <SimpleButton
                                             type="button"
-                                            onClick={() => push('')}
-                                            className="w-full px-6 py-3 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition flex items-center justify-center gap-2 font-medium"
+                                            className="rounded-full p-2 text-red-500 hover:bg-red-100 transition"
+                                            onClick={() => {
+                                            // Remove from form
+                                            remove(index);
+                                            }}
                                         >
-                                            Add Social Media
-                                        </button>
+                                            <IoIosRemoveCircle />
+                                        </SimpleButton>
+                                        </div>
+                                    ))}
+
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                        push('');
+                                        }}
+                                        className="w-full px-6 py-3 bg-blue-100 text-blue-600 rounded-full hover:bg-blue-200 transition flex items-center justify-center gap-2 font-medium"
+                                    >
+                                        Add Social Media
+                                    </button>
                                     </div>
                                 )}
-                            </FieldArray>
+                                </FieldArray>
                         </div>
                     
                         <BlueButton

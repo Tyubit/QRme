@@ -7,7 +7,7 @@ export async function updateInfo(payload: {
     name: string;
     company_name: string;
     phone_num: string;
-    contact_email: string;
+    cont_email: string;
     website: string;
     socials: Array<string>;
     }) {
@@ -25,7 +25,7 @@ export async function updateInfo(payload: {
         name: payload.name,
         company_name: payload.company_name,
         phone_num: payload.phone_num,
-        cont_email: payload.contact_email,
+        cont_email: payload.cont_email,
         website: payload.website,
         socials: payload.socials,
         updated_at: new Date().toISOString()

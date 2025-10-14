@@ -15,12 +15,38 @@ interface Props {
     canEdit: boolean
 }
 
+interface Profile {
+    name: string;
+    company_name: string;
+    phone_num: string;
+    cont_email: string;
+    socials: string[];
+    address: string;
+    website: string;
+}
+
 export default function UserPageClient({ user, canEdit }: Props) {
+
+    const [profile, setProfile] = useState<Profile>({
+            name: user.name || '',
+            company_name: user.company_name || '',
+            phone_num: user.phone_num || '',
+            cont_email: user.cont_email || '',
+            socials: user.socials || [],
+            address: user.address || '',
+            website: user.website || ''
+    });
+    
+
+    console.log(profile)
     const [isEditing, setIsEditing] = useState(false)
 
     if (isEditing) {
         // Show edit component instead of profile view
-        return <ProfileEdit user={user} onCancel={() => setIsEditing(false)} />
+        return <ProfileEdit user={profile} onCancel={() => setIsEditing(false)} onSave={(updatedProfile: Profile) => {
+          setProfile(updatedProfile); // Update state in parent
+            setIsEditing(false);
+        }} />
     }
 
     return (
@@ -28,8 +54,8 @@ export default function UserPageClient({ user, canEdit }: Props) {
             <div className='mt-70 px-2.5 w-full h-full bg-white md:w-fit md:h-fit  md:px-5 md:py-10 rounded-[48px] md:shadow-2xl' >
                 <AvatarPic/>
                 <div className='w-full flex-col flex items-center'>
-                    <h3 className='text-gray-500'>{ user.company_name}</h3>
-                    <h1 className='text-3xl'>{user.name}</h1>
+                    <h3 className='text-gray-500'>{ profile.company_name}</h3>
+                    <h1 className='text-3xl'>{profile.name}</h1>
                     <p className='text-gray-500 font-light'>Subtitles</p>
                 </div>
                 <div className='w-full flex justify-center gap-2.5'>
@@ -37,8 +63,13 @@ export default function UserPageClient({ user, canEdit }: Props) {
                     <IconButton><Favicon siteUrl='https://www.artstation.com/slimeprincess'/></IconButton>
                     <IconButton><Favicon siteUrl='https://www.linkedin.com/'/></IconButton>
                 </div>
+
+                {/* email,phone,website,address info*/}
                 <div>
-                    <ActionContainer/>
+                    <ActionContainer type="email" value={profile.cont_email}/>
+                    <ActionContainer type="phone" value={profile.phone_num}/>
+                    <ActionContainer type="website" value={profile.website}/>
+                    <ActionContainer type="address" value={profile.address}/>
                 </div>
 
                 {canEdit ? (
