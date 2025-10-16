@@ -9,6 +9,7 @@ import ActionContainer from './ActionContainer';
 import AvatarPic from './AvatarPic';
 import Favicon from '@/components/getFavicon';
 import { ProfileEdit } from './ProfileEdit';
+import SocialsSection from '@/components/Profile/SocialsSection'
 
 interface Props {
     user: any
@@ -58,11 +59,7 @@ export default function UserPageClient({ user, canEdit }: Props) {
                     <h1 className='text-3xl'>{profile.name}</h1>
                     <p className='text-gray-500 font-light'>Subtitles</p>
                 </div>
-                <div className='w-full flex justify-center gap-2.5'>
-                    <IconButton><Favicon siteUrl='https://www.youtube.com/'/></IconButton>
-                    <IconButton><Favicon siteUrl='https://www.artstation.com/slimeprincess'/></IconButton>
-                    <IconButton><Favicon siteUrl='https://www.linkedin.com/'/></IconButton>
-                </div>
+                <SocialsSection socials={profile.socials}/>
 
                 {/* email,phone,website,address info*/}
                 <div>
