@@ -1,4 +1,4 @@
-import { Form, Formik, FieldArray  } from 'formik';
+import { Form, Formik, FieldArray, Field  } from 'formik';
 import { useState } from 'react'
 
 import { IoIosRemoveCircle } from "react-icons/io";
@@ -104,21 +104,21 @@ export const ProfileEdit = ({ user, onCancel, onSave }: ProfileEditProps) => {
                                 {({ push, remove }) => (
                                     <div>
                                     {values.socials.map((social, index) => (
-                                        <div key={index} className="flex rounded-lg items-center gap-2">
-                                        <InputField
+                                        <div key={index} className="flex rounded-lg items-center justify-between mb-2.5">
+                                            <Field
                                             name={`socials.${index}`}
                                             placeholder="URL"
-                                            className="w-full rounded-full py-2 px-3.5 ring-1 ring-inset ring-gray-400 focus:text-gray-800 font-light"
-                                        />
+                                            className="flex-1 rounded-full py-2 px-3.5 ring-1 ring-inset ring-gray-400 focus:ring-2 focus:ring-blue-400"
+                                            />
                                         <SimpleButton
                                             type="button"
-                                            className="rounded-full p-2 text-red-500 hover:bg-red-100 transition"
+                                            className=" rounded-full text-red-500 hover:bg-red-100 transition"
                                             onClick={() => {
                                             // Remove from form
                                             remove(index);
                                             }}
                                         >
-                                            <IoIosRemoveCircle />
+                                            <IoIosRemoveCircle className="text-4xl"  />
                                         </SimpleButton>
                                         </div>
                                     ))}
